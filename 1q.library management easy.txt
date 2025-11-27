@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+int main()
+{
+    // Hardcoded Data
+    int totalBookCount = 6;
+    int overdueBookCount = 3;
+
+    // Master list (sorted)
+    int BooksList[6] = {101, 105, 110, 120, 150, 200};
+
+    // Overdue list (unsorted)
+    int OverDueList[3] = {150, 101, 300};
+
+    int toFind;
+    bool BookFound = false;
+
+    printf("Enter the Book ID to check: ");
+    scanf("%d", &toFind);
+
+    // Binary search for validity
+    int start = 0, mid;
+    int end = totalBookCount - 1;
+
+    while (start <= end)
+    {
+        mid = (start + end) / 2;
+
+        if (BooksList[mid] == toFind)
+        {
+            BookFound = true;
+            break;
+        }
+        else if (BooksList[mid] < toFind)
+        {
+            start = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+
+    if (BookFound)
+    {
+        printf("\nBook Id %d is valid.\n", toFind);
+
+        bool overdue = false;
+        for (int i = 0; i < overdueBookCount; i++)
+        {
+            if (OverDueList[i] == toFind)
+            {
+                overdue = true;
+                break;
+            }
+        }
+
+        if (overdue)
+            printf("Book Id %d is overdue.\n", toFind);
+        else
+            printf("Book Id %d is NOT overdue.\n", toFind);
+    }
+    else
+    {
+        printf("\nBook Id %d is invalid.\n", toFind);
+    }
+
+    return 0;
+}

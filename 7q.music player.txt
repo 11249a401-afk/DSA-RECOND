@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Song
+{
+    char songName[10];
+    struct Song *nextSong, *prevSong;
+};
+
+void AddSong(struct Song **head, char *name)
+{
+    struct Song *newSong = (struct Song *)malloc(sizeof(struct Song));
+    strncpy(newSong->songName, name, sizeof(newSong->songName) - 1); // Copying string to string
+    newSong->nextSong = NULL;
+    newSong->prevSong = NULL;
+
+    if (*head == NULL)
+    {
+        *head = newSong;
+        return;
+    }
+    struct Song *temp = *head;
+
+    while (temp->nextSong != NULL)
+        temp = temp->nextSong;
+
+    temp->nextSong = newSong;
+    newSong->prevSong = temp;
+}
+
+void PlaySongs(struct Song *current)
+{
+    if (current == NULL)
+    {
+        printf("No songs to play.\n");
+        return;
+    }
+    printf("Current Song Playing: %s \n", current->songName);
+}
+
+void MoveToNext(struct Song **current)
+{
+    printf("Moving To Next Song...");
+    if (*current == NULL)
+    {
+        printf("No songs to play.\n");
+        return;
+    }
+    if ((*current)->nextSong == NULL)
+    {
+        printf("Reached End of Play List\n");
+        return;
+    }
+    *current = (*current)->nextSong;
+    printf("Playing: %s\n", (*current)->songName);
+}
+
+void MoveToPrevious(struct Song **current)
+{
+    printf("Moving To Previous Song...");
+    if (*current == NULL)
+    {
+        printf("No songs to play.\n");
+        return;
+    }
+
+    if ((*current)->prevSong == NULL)
+    {
+        printf("Reached End of Play List\n");
+        return;
+    }
+    *current = (*current)->prevSong;
+    printf("Playing: %s\n", (*current)->songName);
+}
+
+void DisplayPlaylist(struct Song *head)
+{
+    if (head == NULL)
+    {
+        printf("Playlist is empty.\n");
+        return;
+    }
+
+    printf("Songs in Playlist are:\n");
+    while (head != NULL)
+    {
+        printf("- %s\n", head->songName);
+        head = head->nextSong;
+    }
+}
+
+int main()
+{
+    struct Song *head = NULL, *current = NULL;
+    char *songs[] = {"Song 1", "Song 2", "Song 3"};
+    int size = 3;
+
+    for (int i = 0; i < size; i++)
+        AddSong(&head, songs[i]);
+
+    DisplayPlaylist(head);
+
+    current = head;
+    PlaySongs(current);
+    MoveToNext(&current);
+    MoveToNext(&current);
+    MoveToNext(&current);
+    MoveToPrevious(&current);
+}

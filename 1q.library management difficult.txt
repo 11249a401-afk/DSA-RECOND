@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+int main()
+{
+    int totalBookCount, overdueBookCount, toFind;
+    bool BookFound = false;
+    printf("Enter the number of books in library:");
+    scanf("%d", &totalBookCount);
+
+    int BooksList[totalBookCount];
+    int OverDueList[totalBookCount];
+
+    printf("\nEnter the book ids in ascending order:");
+    for (int i = 0; i < totalBookCount; i++)
+    {
+        printf("\nEnter %d - Book Id: ", i + 1);
+        scanf("%d", &BooksList[i]);
+    }
+
+    printf("Enter the number of overdue books:");
+    scanf("%d", &overdueBookCount);
+
+    printf("\nEnter the overdue book ids in unsorted way:");
+    for (int i = 0; i < overdueBookCount; i++)
+    {
+        printf("\nEnter %d - Overdue Book Id: ", i + 1);
+        scanf("%d", &OverDueList[i]);
+    }
+
+    printf("\nEnter the book id to check is overdue or not:");
+    scanf("%d", &toFind);
+
+    int start = 0, mid;
+    int end = totalBookCount - 1;
+
+    while (start <= end)
+    {
+        mid = (start + end) / 2;
+        if (BooksList[mid] == toFind)
+        {
+            BookFound = true;
+            break;
+        }
+        else if (BooksList[mid] < toFind)
+        {
+            start = mid + 1;
+        }
+        else
+        {
+            end = mid - 1;
+        }
+    }
+
+    if (BookFound)
+    {
+        printf("Given Book Id %d is valid", toFind);
+        bool overdue = false;
+        for (int i = 0; i < overdueBookCount; i++)
+        {
+            if (OverDueList[i] == toFind)
+            {
+                overdue = true;
+                break;
+            }
+        }
+
+        if (overdue)
+        {
+            printf("Book Id %d is overdue", toFind);
+        }
+        else
+        {
+            printf("Book Id %d is NOT overdue", toFind);
+        }
+    }
+    else
+    {
+        printf("Book Id %d is Invalid", toFind);
+    }
+
+    return 0;
+}

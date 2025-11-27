@@ -1,0 +1,53 @@
+Aim
+To implement Depth First Search (DFS) traversal of a graph using adjacency list representation in C.
+
+Algorithm
+- Start with a source vertex.
+- Mark the current vertex as visited.
+- Print the vertex (or process it).
+- For each adjacent vertex of the current vertex:
+- If it is not visited, recursively apply DFS on that vertex.
+- Continue until all vertices reachable from the source are visited.
+
+Program (C Language)
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10
+
+int visited[MAX];   // Array to track visited nodes
+
+// DFS function
+void DFS(int graph[MAX][MAX], int n, int start) {
+    visited[start] = 1;   // Mark node as visited
+    printf("%d ", start); // Print the node
+
+    for (int i = 0; i < n; i++) {
+        if (graph[start][i] == 1 && !visited[i]) {
+            DFS(graph, n, i); // Recursive call
+        }
+    }
+}
+
+int main() {
+    int n; // number of vertices
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+
+Sample Input:
+Enter number of vertices: 4
+Enter adjacency matrix:
+0 1 1 0
+1 0 0 1
+1 0 0 0
+0 1 0 0
+Enter starting vertex: 0
+
+
+
+Sample Output:
+DFS Traversal: 0 1 3 2
+
+
+
